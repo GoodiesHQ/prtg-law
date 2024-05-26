@@ -7,14 +7,14 @@ A simple utility to forward PRTG Webhook data to Azure Log Analytics Workspace
 ### Environment Variables
 
 
-| Variable      | Purpose                                                                               | Default   |
-| ------------- | ------------------------------------------------------------------------------------- | --------- |
-| WORKSPACE_ID  | The Log Analytics Workspace identifier                                                | *required |
-| PRIMARY_KEY   | The Log Analytics Workspace primary key                                               | *required |
-| TABLE_NAME    | The target Log Analytics Workspace table to populate (Azure will append "_CL" suffix) | "PRTG"    |
-| LISTEN_HOST   | The IP Address on which to listen                                                     | "0.0.0.0" |
-| LISTEN_PORT   | The Port on which to listen                                                           | 8888      |
-| HTTP_ENDPOINT | The Webhook handler endpoint path                                                     | "/prtg"   |
+| Variable      | Purpose                                               | Default   |
+| ------------- | ----------------------------------------------------- | --------- |
+| WORKSPACE_ID  | The Log Analytics Workspace identifier                | *required |
+| PRIMARY_KEY   | The Log Analytics Workspace primary key               | *required |
+| TABLE_NAME    | The target Log Analytics Workspace table to populate  | "PRTG"    |
+| LISTEN_HOST   | The IP Address on which to listen                     | "0.0.0.0" |
+| LISTEN_PORT   | The Port on which to listen                           | 8888      |
+| HTTP_ENDPOINT | The Webhook handler endpoint path                     | "/prtg"   |
 
 
 ### Azure Setup
@@ -43,4 +43,30 @@ A simple utility to forward PRTG Webhook data to Azure Log Analytics Workspace
 
 ![PRTG Notification Template](images/prtg_notification_template.png)
 
-Made with <font color="red">❤</font> by Austin Archer
+
+### Log Analytics Workspace Function
+
+Create a function called `PRTG` which pulls from the `PRTG_CL` LAW table (Note: Azure will add the `_CL` suffix, so this example uses the environment variable `TABLE_NAME=PRTG`)
+
+    PRTGT_CL
+    | project
+        TimeGenerated,
+        DateTime=prtg_datetime_t,
+        Date=prtg_date_s,
+        Time=prtg_time_s,
+        Since=prtg_since_t,
+        TimeZone=prtg_timezone_s,
+        ProbeName=prtg_probe_s, ProbeID=prtg_probeid_d,
+        GroupName=prtg_group_s, GroupID=prtg_groupid_d,
+        DeviceName=prtg_device_s, DeviceID=prtg_deviceid_d,
+        SensorName=prtg_sensor_s, SensorID=prtg_sensorid_d,
+        Settings=prtg_settings_s,
+        Priority=prtg_priority_s,
+        Host=prtg_host_s,
+        Message=prtg_message_s, LastMessage=prtg_lastmessage_s,
+        Status=prtg_status_s, LastStatus=prtg_laststatus_s,
+        LastValue=prtg_lastvalue_s,
+        UptimePercent=prtg_uptime_d, DowntimePercent=prtg_downtime_d,
+        ObjectTags=prtg_objecttags_s, ParentTags=prtg_parenttags_s
+
+Made with <font color="red">❤</font> by [Austin Archer](https://linktr.ee/austin.archer)
