@@ -48,7 +48,7 @@ A simple utility to forward PRTG Webhook data to Azure Log Analytics Workspace
 
 Create a function called `PRTG` which pulls from the `PRTG_CL` LAW table (Note: Azure will add the `_CL` suffix, so this example uses the environment variable `TABLE_NAME=PRTG`)
 
-    PRTGT_CL
+    PRTG_CL
     | project
         TimeGenerated,
         DateTime=prtg_datetime_t,
