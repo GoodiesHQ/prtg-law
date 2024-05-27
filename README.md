@@ -15,6 +15,7 @@ A simple utility to forward PRTG Webhook data to Azure Log Analytics Workspace
 | LISTEN_HOST   | The IP Address on which to listen                     | "0.0.0.0" |
 | LISTEN_PORT   | The Port on which to listen                           | 8888      |
 | HTTP_ENDPOINT | The Webhook handler endpoint path                     | "/prtg"   |
+| LOG_LEVEL     | Log verbosity: `DEBUG` `INFO` `WARN` `ERROR`          | "INFO"    |
 
 
 ### Azure Setup

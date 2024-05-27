@@ -61,7 +61,7 @@ func isEmpty(s string) bool {
 	return s == ""
 }
 
-func PRTGtoKQL(prtg *DataPRTG) (*DataKQL, error) {
+func PRTGtoKQL(prtg *DataPRTG, settings *Settings) (*DataKQL, error) {
 	var result = new(DataKQL)
 
 	// process date and time related information
@@ -89,6 +89,7 @@ func PRTGtoKQL(prtg *DataPRTG) (*DataKQL, error) {
 	result.Status = prtg.Status
 	result.LastStatus = prtg.Status
 	result.LastValue = prtg.LastValue
+	result.Settings = prtg.Settings
 
 	if idx := strings.Index(prtg.Downtime, "%"); idx >= 0 {
 		result.Downtime = toFloat32(prtg.Downtime[:idx])
@@ -100,6 +101,11 @@ func PRTGtoKQL(prtg *DataPRTG) (*DataKQL, error) {
 
 	result.ObjectTags = slices.DeleteFunc(strings.Split(prtg.ObjectTags, " "), isEmpty)
 	result.ParentTags = slices.DeleteFunc(strings.Split(prtg.ParentTags, " "), isEmpty)
+
+	settings.Logger.Debug().
+		Str("Original", DumpsForce(prtg, false, settings)).
+		Str("Modified", DumpsForce(result, false, settings)).
+		Msg("Successful parsing")
 
 	return result, nil
 }

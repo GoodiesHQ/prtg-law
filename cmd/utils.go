@@ -90,6 +90,5 @@ func EnvLookupMust[T any](target *T, key string) {
 	err := EnvLookup(target, key, nil)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Environment Variable Failure")
-		// log.Fatalf("%v", err)
 	}
 }

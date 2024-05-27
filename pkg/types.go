@@ -1,5 +1,7 @@
 package prtglaw
 
+import "github.com/rs/zerolog"
+
 // Information needed for starting up the application
 type Settings struct {
 	Host        string
@@ -8,6 +10,8 @@ type Settings struct {
 	WorkspaceID string
 	PrimaryKey  string
 	LogTable    string
+	LogLevel	string
+	Logger 		zerolog.Logger
 }
 
 // Represents the data as it is received from PRTG in application/x-www-form-urlencoded format

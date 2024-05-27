@@ -47,7 +47,7 @@ func PopulateLAW(settings *Settings, payload interface{}) error {
 	rfc1123 = rfc1123[:len(rfc1123)-3] + "GMT"
 
 	// convert the payload into JSON bytes
-	body, err := Dumpb(payload)
+	body, err := Dumpb(payload, settings)
 	if err != nil {
 		return err
 	}
